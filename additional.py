@@ -20,8 +20,7 @@ def loading():
         return []
     try:
         with open(CONFIG, "r", encoding="utf-8") as f:
-            config = json.load(f)
-            return config
+            return json.load(f)     
     except Exception:
         log_error()
         

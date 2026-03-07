@@ -23,13 +23,13 @@ Files:
   2. Create a shortcut to listener.exe in that folder
 
 Commands:
-  create <keys> <action>  - add a new keybind (e.g. create ctrl+c https://google.com)
-  list                    - list all keybinds
-  remove <keys>           - remove a keybind
-  remove all              - remove all keybinds
-  help                    - show this message
-  exit                    - exit the program
-  bind taskkill <keys>          - kills the active window's process 
+  create <keys> <action>    - add a new keybind (e.g. create ctrl+c https://google.com)
+  list                      - list all keybinds
+  remove <keys>             - remove a keybind
+  remove all                - remove all keybinds
+  help                      - show this message
+  exit                      - exit the program
+  bind taskkill <keys>      - kills the active window's process 
     """)
 def list():
     try:
@@ -83,10 +83,11 @@ def bind(do, key):
     try:
         for k in keys:
             key = key.replace(k, keys[k])
-        bind = {
-            "keys": key,
-            "action": do
-        }
+        if do == "taskkill":
+            bind = {
+                "keys": key,
+                "action": do
+            }
         save_keybinds(bind)
         print(f"Keybind {key} -> {do} created")
     except Exception:

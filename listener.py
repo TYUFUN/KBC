@@ -3,7 +3,7 @@ import webbrowser
 from pynput import keyboard
 import threading
 import time
-from additional import log_error, CONFIG, loading
+from additional import log_error, CONFIG, loading, window
 keybind = {}
 def reload_listener():
     while True:
@@ -19,8 +19,11 @@ def listener():
     pressed = set()
     def on_press(key):
         try:
-            if key.char:
-                pressed.add(key.char)
+            char = key.char
+            if char:
+                if not char.isprintable():
+                    char = chr(ord(char) + 96)   
+                pressed.add(char)
         except AttributeError:
             name = key.name
             name = name.replace("_l", "").replace("_r", "")
@@ -33,6 +36,9 @@ def listener():
                     webbrowser.open(action)
                 elif action.endswith(".exe"):
                     subprocess.Popen([action], creationflags=subprocess.CREATE_NEW_CONSOLE)
+                elif action == "taskkill":
+                    task = window()
+                    subprocess.Popen(["taskkill", "/F", "/IM", task])
                 else:
                     subprocess.Popen(["powershell", "-Command", action], creationflags=subprocess.CREATE_NEW_CONSOLE)
 

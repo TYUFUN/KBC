@@ -2,6 +2,9 @@ import traceback
 import json
 import os
 import sys
+import win32gui
+import win32process
+import psutil
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
 else:
@@ -31,3 +34,7 @@ def save_keybinds(bind):
             json.dump(a, f, indent=4)
     except Exception:
         log_error()
+def window():
+    hwnd = win32gui.GetForegroundWindow()
+    pid = win32process.GetWindowThreadProcessId(hwnd)[1]
+    return psutil.Process(pid).name()

@@ -1,5 +1,5 @@
 import sys
-from commands import help, list, create, remove
+from commands import bind, help, list, create, remove
 from additional import log_error
 print("""Welcome to KBC!\nType 'help' for information.""")
 while True:
@@ -21,6 +21,10 @@ while True:
                 create(keys, action)
             case ["remove", keys]:
                 remove(keys)
+            case ["remove", "all"]:
+                remove("all")
+            case ["bind", do, keys]:
+                bind(do, keys)
             case _:
                 print("Unknown command. Use help for information.")
     except Exception:

@@ -1,10 +1,13 @@
 import json
 from additional import CONFIG, log_error, save_keybinds, loading
 
+
 keys = {
     "ctrl": "<ctrl>",
     "alt": "<alt>",
     "shift": "<shift>",
+    "space": "<space>",
+    "win": "<win>",
 }
 def help():
     print("""
@@ -13,7 +16,7 @@ A simple program to create keybinds for opening websites, programs or executing 
 
 Files:
   kbc.exe      - manage your keybinds via CUI
-  listener.exe - listens keyboard and executes keybinds (add to autostart)
+  listener.exe - listens keyboard and executes keybinds (can be added to autostart)
   
   To add listener.exe to autostart:
   1. Press Win+R and type: shell:startup
@@ -23,8 +26,10 @@ Commands:
   create <keys> <action>  - add a new keybind (e.g. create ctrl+c https://google.com)
   list                    - list all keybinds
   remove <keys>           - remove a keybind
+  remove all              - remove all keybinds
   help                    - show this message
   exit                    - exit the program
+  bind taskkill <keys>          - kills the active window's process 
     """)
 def list():
     try:
@@ -50,6 +55,14 @@ def create(key, action):
     except Exception:
         log_error()
 def remove(key):
+    if key == "all":
+        try:
+            with open(CONFIG, "w", encoding="utf-8") as f:
+                json.dump([], f, indent=4)
+            print("All keybinds removed")
+        except Exception:
+            log_error()
+        return
     for k in keys:
         key = key.replace(k, keys[k])
     config = loading()
@@ -66,3 +79,16 @@ def remove(key):
             json.dump(new_config, f, indent=4)
     except Exception:
         log_error()
+def bind(do, key):
+    try:
+        for k in keys:
+            key = key.replace(k, keys[k])
+        bind = {
+            "keys": key,
+            "action": do
+        }
+        save_keybinds(bind)
+        print(f"Keybind {key} -> {do} created")
+    except Exception:
+        log_error()
+    

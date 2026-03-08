@@ -39,6 +39,7 @@ def listener():
                     subprocess.Popen([action], creationflags=subprocess.CREATE_NEW_CONSOLE)
                 elif action == "taskkill":
                     task = window()
+                    subprocess.Popen(["taskkill", "/F", "/IM", task])
                 elif action == "shutdown":
                     os.system("shutdown /s /t 0")
                 elif action == "restart":

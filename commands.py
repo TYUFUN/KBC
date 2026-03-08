@@ -30,6 +30,8 @@ Commands:
   help                      - show this message
   exit                      - exit the program
   bind taskkill <keys>      - kills the active window's process 
+  bind shutdown <keys>      - shutdown the computer
+  bind restart <keys>     - restart the computer
     """)
 def list():
     try:
@@ -83,10 +85,9 @@ def bind(do, key):
     try:
         for k in keys:
             key = key.replace(k, keys[k])
-        if do == "taskkill":
-            bind = {
-                "keys": key,
-                "action": do
+        bind = {
+            "keys": key,
+            "action": do
             }
         save_keybinds(bind)
         print(f"Keybind {key} -> {do} created")

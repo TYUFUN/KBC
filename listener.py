@@ -3,6 +3,7 @@ import webbrowser
 from pynput import keyboard
 import threading
 import time
+import os
 from additional import log_error, CONFIG, loading, window
 keybind = {}
 def reload_listener():
@@ -38,7 +39,10 @@ def listener():
                     subprocess.Popen([action], creationflags=subprocess.CREATE_NEW_CONSOLE)
                 elif action == "taskkill":
                     task = window()
-                    subprocess.Popen(["taskkill", "/F", "/IM", task])
+                elif action == "shutdown":
+                    os.system("shutdown /s /t 0")
+                elif action == "restart":
+                    os.system("shutdown /r /t 0")
                 else:
                     subprocess.Popen(["powershell", "-Command", action], creationflags=subprocess.CREATE_NEW_CONSOLE)
 

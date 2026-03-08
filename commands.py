@@ -42,6 +42,8 @@ def list():
                 return
             for bind in config:
                 print(f"{bind['keys']} -> {bind['action']}")
+    except FileNotFoundError:
+        print("Config file not found. No keybinds created yet.")
     except Exception:
         log_error()
 def create(key, action):

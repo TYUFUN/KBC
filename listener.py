@@ -6,19 +6,23 @@ import time
 import os
 from additional import log_error, CONFIG, loading, window
 keybind = {}
+clear_timer = None
 def reload_listener():
     while True:
-        time.sleep(10)
+        time.sleep(3)
         config = loading()
         keybind.clear()
         for a in config:
             keybind[a["keys"]] = a["action"]
-def listener():
+def listener(): 
     config = loading()
     for a in config:
         keybind[a["keys"]] = a["action"]
     pressed = set()
     def on_press(key):
+        global clear_timer
+        if clear_timer:
+            clear_timer.cancel()
         try:
             char = key.char
             if char:
@@ -29,27 +33,36 @@ def listener():
             name = key.name
             name = name.replace("_l", "").replace("_r", "")
             pressed.add(f"<{name}>")
-        for keys in keybind:
+        clear_timer = threading.Timer(1.0, pressed.clear)
+        clear_timer.start()
+        for keys in list(keybind):
             ass = set(keys.split("+"))
             if ass == pressed:
                 action = keybind[keys]
+                pressed.clear()
                 if action.startswith("http"):
                     webbrowser.open(action)
                 elif action.endswith(".exe"):
                     subprocess.Popen([action], creationflags=subprocess.CREATE_NEW_CONSOLE)
                 elif action == "taskkill":
                     task = window()
-                    subprocess.Popen(["taskkill", "/F", "/IM", task])
+                    subprocess.Popen(["taskkill", "/F", "/IM", task],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL)
                 elif action == "shutdown":
                     os.system("shutdown /s /t 0")
                 elif action == "restart":
                     os.system("shutdown /r /t 0")
                 else:
                     subprocess.Popen(["powershell", "-Command", action], creationflags=subprocess.CREATE_NEW_CONSOLE)
+                break
 
     def on_release(key):
         try:
-            if key.char:
+            char = key.char
+            if char:
+                if not char.isprintable():
+                    char = chr(ord(char) + 96)
                 pressed.discard(key.char)
         except AttributeError:
             name = key.name.replace("_l", "").replace("_r", "")

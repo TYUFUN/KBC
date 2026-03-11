@@ -33,7 +33,14 @@ Files:
   To add listener.exe to autostart:
   1. Press Win+R and type: shell:startup
   2. Create a shortcut to listener.exe in that folder
-
+  
+ Notes:
+  listener.exe must be in the same folder as kbc.exe
+  keys like <ctrl> in list output are correct, this is how program reads them
+  you can create keybinds using "create" for opening websites, programs (.exe) or executing commands
+  
+  !important: you must write keys with "+" without spaces (e.g. ctrl+c, alt+f4, win+shift+s)
+  
 Commands:
   create <keys> <action>    - add a new keybind (e.g. create ctrl+c https://google.com)
   list                      - list all keybinds
@@ -43,7 +50,7 @@ Commands:
   exit                      - exit the program
   bind taskkill <keys>      - kills the active window's process 
   bind shutdown <keys>      - shutdown the computer
-  bind restart <keys>     - restart the computer
+  bind restart <keys>       - restart the computer
     """)
 def list():
     try:

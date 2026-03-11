@@ -1,5 +1,4 @@
 import subprocess
-import webbrowser
 from pynput import keyboard
 import threading
 import time
@@ -41,14 +40,18 @@ def listener():
                 action = keybind[keys]
                 pressed.clear()
                 if action.startswith("http"):
-                    webbrowser.open(action)
+                    subprocess.Popen(["cmd", "/c", "start", action],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    creationflags=subprocess.CREATE_NO_WINDOW)
                 elif action.endswith(".exe"):
                     subprocess.Popen([action], creationflags=subprocess.CREATE_NEW_CONSOLE)
                 elif action == "taskkill":
                     task = window()
                     subprocess.Popen(["taskkill", "/F", "/IM", task],
                         stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL)
+                        stderr=subprocess.DEVNULL,
+                         creationflags=subprocess.CREATE_NO_WINDOW)
                 elif action == "shutdown":
                     os.system("shutdown /s /t 0")
                 elif action == "restart":

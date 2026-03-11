@@ -32,7 +32,7 @@ def listener():
             name = key.name
             name = name.replace("_l", "").replace("_r", "")
             pressed.add(f"<{name}>")
-        clear_timer = threading.Timer(1.0, pressed.clear)
+        clear_timer = threading.Timer(0.3, pressed.clear)
         clear_timer.start()
         for keys in list(keybind):
             ass = set(keys.split("+"))

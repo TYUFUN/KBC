@@ -66,7 +66,7 @@ def listener():
             if char:
                 if not char.isprintable():
                     char = chr(ord(char) + 96)
-                pressed.discard(key.char)
+                pressed.discard(char)
         except AttributeError:
             name = key.name.replace("_l", "").replace("_r", "")
             pressed.discard(f"<{name}>")

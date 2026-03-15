@@ -1,7 +1,7 @@
 # KBC - Keybind CUI
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
-![Version](https://img.shields.io/badge/Version-1.1-green)
+![Version](https://img.shields.io/badge/Version-1.2-green)
 
 A simple Windows utility that lets you create custom keybinds for opening websites, launching programs or executing commands.
 
@@ -24,14 +24,12 @@ KBC consists of two executables that work together:
 
 1. Download the latest release from the [Releases](../../releases) page
 2. Place both `kbc.exe` and `listener.exe` in the same folder
-3. Run `listener.exe` once to start listening for keybinds
+3. Run `listener.exe` to start listening for your keybinds
 
-**To add listener.exe to autostart:**
-1. Press `Win+R` and type `shell:startup`
-2. Create a shortcut to `listener.exe` in that folder
+**Autostart** can be enabled directly from `kbc.exe` using the `autostart on` command — no need to manually create shortcuts.
 
 <details>
-<summary>Why should I add it to autostart?</summary>
+<summary>Why should I enable autostart?</summary>
 
 So that the listener starts automatically when Windows boots — you won't have to manually launch it every time you restart your PC, and all your keybinds will work right away.
 
@@ -39,15 +37,29 @@ So that the listener starts automatically when Windows boots — you won't have 
 
 ---
 
-## Usage
+## Notes
 
-Run `kbc.exe` to open the CUI and manage your keybinds:
+- `listener.exe` must be in the same folder as `kbc.exe`
+- Keys like `<ctrl>` in list output are correct, this is how the program reads them
+- You can create keybinds for websites, programs (`.exe`) or any command
+- **Important:** write keys with `+` without spaces (e.g. `ctrl+c`, `alt+f4`, `ctrl+shift+n`)
 
-```
-Welcome to KBC!
-Type 'help' for information.
->>>
-```
+---
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `create <keys> <action>` | Add a new keybind (e.g. `create alt+g https://google.com`) |
+| `list` | List all keybinds |
+| `remove <keys>` | Remove a keybind |
+| `remove all` | Remove all keybinds |
+| `bind taskkill <keys>` | Kill the active window's process |
+| `bind shutdown <keys>` | Shutdown the computer |
+| `bind restart <keys>` | Restart the computer |
+| `autostart on\|off` | Enable or disable autostart for listener.exe |
+| `help` | Show help message |
+| `exit` | Exit the program |
 
 ---
 
@@ -55,8 +67,11 @@ Type 'help' for information.
 
 ```
 >>> create alt+g https://google.com
->>> create ctrl+shift+n notepad.exe
+>>> create ctrl+shift+n C:\Windows\System32\notepad.exe
+>>> bind taskkill alt+f5
+>>> autostart on
 >>> list
 <alt>+g -> https://google.com
-<ctrl>+<shift>+n -> notepad.exe
+<ctrl>+<shift>+n -> C:\Windows\System32\notepad.exe
+<alt>+<f5> -> taskkill
 ```

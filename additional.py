@@ -5,6 +5,8 @@ import sys
 import win32gui
 import win32process
 import psutil
+startup = os.path.join(os.getenv("APPDATA"), "Microsoft\\Windows\\Start Menu\\Programs\\Startup")
+shortcut_path = os.path.join(startup, "listener.lnk")
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
 else:

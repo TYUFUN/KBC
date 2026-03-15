@@ -1,5 +1,7 @@
 import json
-from additional import CONFIG, log_error, save_keybinds, loading
+import os
+import win32com.client
+from additional import BASE_DIR, CONFIG, log_error, save_keybinds, loading, shortcut_path
 
 
 keys = {
@@ -30,10 +32,6 @@ Files:
   kbc.exe      - manage your keybinds via CUI
   listener.exe - listens keyboard and executes keybinds (can be added to autostart)
   
-  To add listener.exe to autostart:
-  1. Press Win+R and type: shell:startup
-  2. Create a shortcut to listener.exe in that folder
-  
  Notes:
   listener.exe must be in the same folder as kbc.exe
   keys like <ctrl> in list output are correct, this is how program reads them
@@ -51,6 +49,7 @@ Commands:
   bind taskkill <keys>      - kills the active window's process 
   bind shutdown <keys>      - shutdown the computer
   bind restart <keys>       - restart the computer
+  autostart on|off             - enable or disable autostart keybind listener
     """)
 def list():
     try:
@@ -114,4 +113,24 @@ def bind(do, key):
         print(f"Keybind {key} -> {do} created")
     except Exception:
         log_error()
-    
+def autostart(do):
+    if do == "off":
+        try:
+            if os.path.exists(shortcut_path):
+                os.remove(shortcut_path)
+                print("Autostart disabled")
+            else:
+                print("Autostart is not enabled.")
+        except Exception:
+            log_error()
+    elif do == "on":
+        try:
+            
+            target_path = os.path.join(BASE_DIR, "listener.exe")
+            shell = win32com.client.Dispatch("WScript.Shell")
+            shortcut = shell.CreateShortcut(shortcut_path)
+            shortcut.Targetpath = target_path
+            shortcut.Save()
+            print("Autostart enabled")
+        except Exception:
+            log_error()

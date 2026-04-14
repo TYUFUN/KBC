@@ -12,16 +12,16 @@ while True:
         match parts:
             case ["help"]:
                 help()
-            case ["list"]:
+            case ["ls"]:
                 list()
             case ["exit"]:
                 sys.exit(0)
             case ["create", keys, action]:
                 action = action.strip()
                 create(keys, action)
-            case ["remove", keys]:
+            case ["rm", keys]:
                 remove(keys)
-            case ["remove", "all"]:
+            case ["rm", "all"]:
                 remove("all")
             case ["bind", do, keys]:
                 bind(do, keys)

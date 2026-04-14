@@ -41,9 +41,9 @@ Files:
   
 Commands:
   create <keys> <action>    - add a new keybind (e.g. create ctrl+c https://google.com)
-  list                      - list all keybinds
-  remove <keys>             - remove a keybind
-  remove all                - remove all keybinds
+  ls                        - list all keybinds
+  rm <keys>             - remove a keybind
+  rm all                - remove all keybinds
   help                      - show this message
   exit                      - exit the program
   bind taskkill <keys>      - kills the active window's process 
@@ -64,7 +64,7 @@ def list():
         print("Config file not found. No keybinds created yet.")
     except Exception:
         log_error()
-def create(key, action):
+def create(key:str, action:str) -> dict:
     try:
         for k in keys:
             key = key.replace(k, keys[k])
@@ -76,7 +76,7 @@ def create(key, action):
         print(f"Keybind {key} -> {action} created")
     except Exception:
         log_error()
-def remove(key):
+def remove(key:str):
     if key == "all":
         try:
             with open(CONFIG, "w", encoding="utf-8") as f:
@@ -101,7 +101,7 @@ def remove(key):
             json.dump(new_config, f, indent=4)
     except Exception:
         log_error()
-def bind(do, key):
+def bind(do:str, key:str) -> dict:
     try:
         for k in keys:
             key = key.replace(k, keys[k])
@@ -113,7 +113,7 @@ def bind(do, key):
         print(f"Keybind {key} -> {do} created")
     except Exception:
         log_error()
-def autostart(do):
+def autostart(do:str):
     if do == "off":
         try:
             if os.path.exists(shortcut_path):

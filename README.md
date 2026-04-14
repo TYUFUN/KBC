@@ -51,9 +51,9 @@ So that the listener starts automatically when Windows boots — you won't have 
 | Command | Description |
 |---------|-------------|
 | `create <keys> <action>` | Add a new keybind (e.g. `create alt+g https://google.com`) |
-| `list` | List all keybinds |
-| `remove <keys>` | Remove a keybind |
-| `remove all` | Remove all keybinds |
+| `ls` | List all keybinds |
+| `rm <keys>` | Remove a keybind |
+| `rm all` | Remove all keybinds |
 | `bind taskkill <keys>` | Kill the active window's process |
 | `bind shutdown <keys>` | Shutdown the computer |
 | `bind restart <keys>` | Restart the computer |
@@ -70,7 +70,7 @@ So that the listener starts automatically when Windows boots — you won't have 
 >>> create ctrl+shift+n C:\Windows\System32\notepad.exe
 >>> bind taskkill alt+f5
 >>> autostart on
->>> list
+>>> ls
 <alt>+g -> https://google.com
 <ctrl>+<shift>+n -> C:\Windows\System32\notepad.exe
 <alt>+<f5> -> taskkill

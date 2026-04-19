@@ -1,7 +1,7 @@
 import json
 import os
 import win32com.client
-from additional import BASE_DIR, CONFIG, log_error, save_keybinds, loading, shortcut_path
+from additional import BASE_DIR, CONFIG, SYGNALS, log_error, save_keybinds, loading, save_sygnals, shortcut_path
 
 
 keys = {
@@ -23,8 +23,9 @@ keys = {
     "f11": "<f11>",
     "f12": "<f12>",
 }
-def help():
-    print("""
+def help(page: str):
+    if page == "0":
+        print("""
 KBC - Keybind CUI
 A simple program to create keybinds for opening websites, programs or executing commands.
 
@@ -42,14 +43,41 @@ Files:
 Commands:
   create <keys> <action>    - add a new keybind (e.g. create ctrl+c https://google.com)
   ls                        - list all keybinds
-  rm <keys>             - remove a keybind
-  rm all                - remove all keybinds
-  help                      - show this message
+  rm <keys>                 - remove a keybind
+  rm all                    - remove all keybinds
+  help <page>               - show this message or another help messages (default page=0)
   exit                      - exit the program
   bind taskkill <keys>      - kills the active window's process 
   bind shutdown <keys>      - shutdown the computer
   bind restart <keys>       - restart the computer
   autostart on|off             - enable or disable autostart keybind listener
+    """)
+    elif page == "1":
+        print("""
+KBC Help - Page 1: Signal Handling (treat)
+This command allows you to bind Bluetooth signals (like media buttons) to specific actions.
+
+Commands:
+  treat <signal> -a <action>  - bind a signal to open a website, program or command
+                                (e.g. treat media_play_pause -a https://spotify.com)                              
+  treat <signal> -k <keys>    - bind a signal to simulate keyboard keys
+                                (e.g. treat media_next -k ctrl+shift+n)
+
+Flags:
+  -a (action) - executes a standard KBC action (web, path, or system command)
+  -k (keys)   - simulates physical key presses on your keyboard
+
+example of Bluetooth Signals (pynput standard):
+  media_play_pause    - Play/Pause button
+  media_volume_up     - Volume Up button
+  media_volume_down   - Volume Down button
+  media_next          - Next Track button
+  media_previous      - Previous Track button
+
+Notes:
+  - You can find the exact signal name by asking AI or search in the internet.
+  - Signal names must be written exactly as shown (all lowercase).
+  - Like in "create", keys for the -k flag must be separated by "+" without spaces.
     """)
 def list():
     try:
@@ -60,6 +88,12 @@ def list():
                 return
             for bind in config:
                 print(f"{bind['keys']} -> {bind['action']}")
+        with open(SYGNALS, "r", encoding="utf-8") as c:
+            sygnals = json.load(c)
+            if not sygnals:
+                return
+            for bind in sygnals:
+                print(f"{bind['sygnals']} -> {bind['action']}")
     except FileNotFoundError:
         print("Config file not found. No keybinds created yet.")
     except Exception:
@@ -134,3 +168,17 @@ def autostart(do:str):
             print("Autostart enabled")
         except Exception:
             log_error()
+def treat(sygnal:str, option:str, action:str) -> dict:
+    try:
+        if option == "-k":
+            for k in keys:
+                action = action.replace(k, keys[k])
+        bind = {
+            "sygnals": sygnal,
+            "action": action,
+            "option": option
+        }
+        save_sygnals(bind)
+        print(f"sygnal treat {sygnal} -> {action} created")
+    except Exception:
+        log_error()

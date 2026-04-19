@@ -1,5 +1,5 @@
 import sys
-from commands import autostart, bind, help, list, create, remove
+from commands import autostart, bind, help, list, create, remove, treat
 from additional import log_error
 print("""Welcome to KBC!\nType 'help' for information.""")
 while True:
@@ -10,8 +10,10 @@ while True:
         else:
             parts = inputt.split()
         match parts:
+            case ["help", page]:
+                help(page=page)
             case ["help"]:
-                help()
+                help(page=0)
             case ["ls"]:
                 list()
             case ["exit"]:
@@ -27,6 +29,8 @@ while True:
                 bind(do, keys)
             case ["autostart", do]:
                 autostart(do)
+            case ["treat", sygnal, option, action]:
+                treat(sygnal, option, action)
             case _:
                 print("Unknown command. Use help for information.")
     except Exception:

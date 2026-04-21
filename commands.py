@@ -23,8 +23,9 @@ keys = {
     "f11": "<f11>",
     "f12": "<f12>",
 }
+
 def help(page: str):
-    if page == "0":
+    if page == "1":
         print("""
 KBC - Keybind CUI
 A simple program to create keybinds for opening websites, programs or executing commands.
@@ -52,15 +53,15 @@ Commands:
   bind restart <keys>       - restart the computer
   autostart on|off             - enable or disable autostart keybind listener
     """)
-    elif page == "1":
+    elif page == "2":
         print("""
-KBC Help - Page 1: Signal Handling (treat)
+KBC Help - Page 2: Signal Handling (treat)
 This command allows you to bind Bluetooth signals (like media buttons) to specific actions.
 
 Commands:
   treat <signal> -a <action>  - bind a signal to open a website, program or command
                                 (e.g. treat media_play_pause -a https://spotify.com)                              
-  treat <signal> -k <keys>    - bind a signal to simulate keyboard keys
+  treat <signal> -k <keys>    - bind a signal to simulate keyboard keys (up to 4 keys)
                                 (e.g. treat media_next -k ctrl+shift+n)
 
 Flags:
@@ -88,6 +89,11 @@ def list():
                 return
             for bind in config:
                 print(f"{bind['keys']} -> {bind['action']}")
+    except FileNotFoundError:
+        print("Config file not found. No keybinds created yet.")
+    except Exception:
+        log_error()
+    try:
         with open(SYGNALS, "r", encoding="utf-8") as c:
             sygnals = json.load(c)
             if not sygnals:
@@ -95,9 +101,7 @@ def list():
             for bind in sygnals:
                 print(f"{bind['sygnals']} -> {bind['action']}")
     except FileNotFoundError:
-        print("Config file not found. No keybinds created yet.")
-    except Exception:
-        log_error()
+        pass
 def create(key:str, action:str) -> dict:
     try:
         for k in keys:

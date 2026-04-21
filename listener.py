@@ -9,6 +9,25 @@ keybind = {}
 sygnals = None
 clear_timer = None
 controller = Controller()
+tryfix = {
+    "<win>": Key.cmd,
+    "<ctrl>": Key.ctrl,
+    "<shift>": Key.shift,
+    "<alt>": Key.alt,
+    "<space>": Key.space,
+    "<f1>": Key.f1,
+    "<f2>": Key.f2,
+    "<f3>": Key.f3,
+    "<f4>": Key.f4,
+    "<f5>": Key.f5,
+    "<f6>": Key.f6,
+    "<f7>": Key.f7,
+    "<f8>": Key.f8,
+    "<f9>": Key.f9,
+    "<f10>": Key.f10,
+    "<f11>": Key.f11,
+    "<f12>": Key.f12,
+}
 def reload_listener():
     while True:
         global sygnals
@@ -38,6 +57,37 @@ def run(action:str):
         os.system("shutdown /r /t 0")
     else:
         subprocess.Popen(["powershell", "-Command", action], creationflags=subprocess.CREATE_NEW_CONSOLE)
+def pressing(keys: str):
+    key = keys.split("+")
+    spisok = []
+    for k in key:
+        spisok.append(tryfix.get(k, k))
+    num = len(spisok)
+    match num:
+        case  4:
+            a, b, c, d = spisok
+            with controller.pressed(a):
+                with controller.pressed(b):
+                    with controller.pressed(c):
+                        controller.press(d)
+                        controller.release(d)
+        case  3:
+            a, b, c, = spisok
+            with controller.pressed(a):
+                with controller.pressed(b):
+                    controller.press(c)
+                    controller.release(c)
+        case  2:
+            a, b = spisok
+            with controller.pressed(a):
+                controller.press(b)
+                controller.release(b)
+        case 1:
+            a = spisok
+            controller.press(a)
+            controller.release(a)
+        case _:
+            return []
 def listener():
     global sygnals 
     config = loading()
@@ -53,9 +103,7 @@ def listener():
                     if b["option"] == "-a":
                         run(b["action"])
                     elif b["option"] == "-k":
-                        keys_sg = b["action"].split("+")
-                        with controller.pressed(*keys_sg):
-                            pass
+                        pressing(b["action"])
         except Exception:
             log_error              
         global clear_timer

@@ -13,7 +13,7 @@ while True:
             case ["help", page]:
                 help(page=page)
             case ["help"]:
-                help(page=0)
+                help(page="1")
             case ["ls"]:
                 list()
             case ["exit"]:

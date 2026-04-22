@@ -83,19 +83,18 @@ def pressing(keys: str):
                 controller.press(b)
                 controller.release(b)
         case 1:
-            a = spisok
+            a = spisok[0]
             controller.press(a)
             controller.release(a)
         case _:
             return []
 def listener():
-    global sygnals 
     config = loading()
     sygnals = load_sygnals()
     for a in config:
         keybind[a["keys"]] = a["action"]
     pressed = set()
-    def on_press(key: str):
+    def on_press(key):
         try:
             for b in sygnals:
                 target_key = getattr(keyboard.Key, b["sygnals"])
@@ -105,7 +104,7 @@ def listener():
                     elif b["option"] == "-k":
                         pressing(b["action"])
         except Exception:
-            log_error              
+            log_error()              
         global clear_timer
         if clear_timer:
             clear_timer.cancel()
@@ -128,7 +127,7 @@ def listener():
                 pressed.clear()
                 run(action)
                 break
-    def on_release(key: str):
+    def on_release(key):
         try:
             char = key.char
             if char:

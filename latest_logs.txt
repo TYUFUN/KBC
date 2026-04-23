@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "C:\Users\Lenovo\Desktop\vscod\python_learning\keybinds_cui\commands.py", line 69, in list
-    print(f"{bind['sygnals']} -> {bind['action']}")
-             ~~~~^^^^^^^^^^^
-KeyError: 'sygnals'

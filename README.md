@@ -1,30 +1,37 @@
-# KBC - Keybind CUI
+# KBC --- Keybind CUI (v2.0)
+
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
-![Version](https://img.shields.io/badge/Version-1.2-green)
+![Version](https://img.shields.io/badge/Version-2.0-green)
 
-A simple Windows utility that lets you create custom keybinds for opening websites, launching programs or executing commands.
+**KBC** is a Windows console utility that allows you to create custom
+keybinds for: - opening websites - launching programs - executing system
+commands - handling media / Bluetooth signals (Play, Next, Volume, etc.)
 
----
+It works together with a background keyboard listener.
+
+------------------------------------------------------------------------
 
 ## Files
 
-KBC consists of two executables that work together:
+  -----------------------------------------------------------------------
+  File                      Purpose
+  ------------------------- ---------------------------------------------
+  `kbc.exe`                 Manage keybinds via CUI
 
-| File | Description |
-|------|-------------|
-| `kbc.exe` | CUI app for managing your keybinds |
-| `listener.exe` | Runs in the background and listens for your keybinds |
+  `listener.exe`            Background process that listens for key
+                            presses and signals
+  -----------------------------------------------------------------------
 
-> Both files must be in the same folder to work correctly.
+> Both files **must** be placed in the same folder.
 
----
+------------------------------------------------------------------------
 
 ## Installation
 
-1. Download the latest release from the [Releases](../../releases) page
-2. Place both `kbc.exe` and `listener.exe` in the same folder
-3. Run `listener.exe` to start listening for your keybinds
+1.  Download the latest version from the [Releases](../../releases) page
+2.  Place `kbc.exe` and `listener.exe` in the same folder
+3.  Run `listener.exe`
 
 **Autostart** can be enabled directly from `kbc.exe` using the `autostart on` command — no need to manually create shortcuts.
 
@@ -35,43 +42,90 @@ So that the listener starts automatically when Windows boots — you won't have 
 
 </details>
 
----
+------------------------------------------------------------------------
 
-## Notes
+## Important Notes
 
-- `listener.exe` must be in the same folder as `kbc.exe`
-- Keys like `<ctrl>` in list output are correct, this is how the program reads them
-- You can create keybinds for websites, programs (`.exe`) or any command
-- **Important:** write keys with `+` without spaces (e.g. `ctrl+c`, `alt+f4`, `ctrl+shift+n`)
+-   `listener.exe` must be in the same folder as `kbc.exe`
+-   Keys shown like `<ctrl>` in output are correct --- this is how the
+    program reads them
+-   Keys must always be written using `+` **without spaces**\
+    Examples: `ctrl+c`, `alt+f4`, `win+shift+s`
+-   You can create keybinds for:
+    -   websites
+    -   `.exe` files
+    -   any Windows command
 
----
+------------------------------------------------------------------------
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `create <keys> <action>` | Add a new keybind (e.g. `create alt+g https://google.com`) |
-| `ls` | List all keybinds |
-| `rm <keys>` | Remove a keybind |
-| `rm all` | Remove all keybinds |
-| `bind taskkill <keys>` | Kill the active window's process |
-| `bind shutdown <keys>` | Shutdown the computer |
-| `bind restart <keys>` | Restart the computer |
-| `autostart on\|off` | Enable or disable autostart for listener.exe |
-| `help` | Show help message |
-| `exit` | Exit the program |
+  Command                    Description
+  -------------------------- ---------------------------------------
+  `create <keys> <action>`   Create a new keybind
+  `ls`                       List all keybinds
+  `rm <keys>`                Remove a keybind
+  `rm all`                   Remove all keybinds
+  `bind taskkill <keys>`     Kill the process of the active window
+  `bind shutdown <keys>`     Shutdown the computer
+  `bind restart <keys>`      Restart the computer
+  `autostart on\|off`        Enable or disable listener autostart
+  `help <page>`              Show help message
+  `exit`                     Exit the program
 
----
+------------------------------------------------------------------------
 
-## Examples
+## New in 2.0 --- Media & Bluetooth signal handling (`treat`)
 
-```
->>> create alt+g https://google.com
->>> create ctrl+shift+n C:\Windows\System32\notepad.exe
->>> bind taskkill alt+f5
->>> autostart on
->>> ls
-<alt>+g -> https://google.com
-<ctrl>+<shift>+n -> C:\Windows\System32\notepad.exe
-<alt>+<f5> -> taskkill
-```
+You can now bind actions not only to keyboard keys, but also to device
+signals, for examle Bluetooth device
+
+### Syntax
+
+    treat <signal> -a <action>
+    treat <signal> -k <keys>
+
+### Flags
+
+  -----------------------------------------------------------------------
+  Flag                           Action
+  ------------------------------ ----------------------------------------
+  `-a`                           Execute a standard KBC action (website,
+                                 path, or system command)
+
+  `-k`                           Simulate keyboard key presses (up to 4
+                                 keys)
+  -----------------------------------------------------------------------
+
+### Examples
+
+    treat media_play_pause -a https://spotify.com
+    treat media_next -k ctrl+shift+n
+
+### Example signals (pynput standard)
+
+  Signal                Button
+  --------------------- ----------------
+  `media_play_pause`    Play / Pause
+  `media_next`          Next Track
+  `media_previous`      Previous Track
+  `media_volume_up`     Volume Up
+  `media_volume_down`   Volume Down
+
+> Signal names are case-sensitive and must be written in lowercase.
+
+------------------------------------------------------------------------
+
+## Usage Examples
+
+    create alt+g https://google.com
+    create ctrl+shift+n C:\Windows\System32\notepad.exe
+    bind taskkill alt+f5
+    autostart on
+    ls
+
+Output:
+
+    <alt>+g -> https://google.com
+    <ctrl>+<shift>+n -> C:\Windows\System32\notepad.exe
+    <alt>+<f5> -> taskkill

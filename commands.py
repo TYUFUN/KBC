@@ -102,7 +102,7 @@ def list():
                 print(f"{bind['sygnals']} -> {bind['action']}")
     except FileNotFoundError:
         pass
-def create(key:str, action:str) -> dict:
+def create(key:str, action:str):
     try:
         for k in keys:
             key = key.replace(k, keys[k])
@@ -139,7 +139,7 @@ def remove(key:str):
             json.dump(new_config, f, indent=4)
     except Exception:
         log_error()
-def bind(do:str, key:str) -> dict:
+def bind(do:str, key:str):
     try:
         for k in keys:
             key = key.replace(k, keys[k])
@@ -172,7 +172,7 @@ def autostart(do:str):
             print("Autostart enabled")
         except Exception:
             log_error()
-def treat(sygnal:str, option:str, action:str) -> dict:
+def treat(sygnal:str, option:str, action:str):
     try:
         if option == "-k":
             for k in keys:

@@ -5,7 +5,7 @@ import sys
 import win32gui
 import win32process
 import psutil
-startup = os.path.join(os.getenv("APPDATA"), "Microsoft\\Windows\\Start Menu\\Programs\\Startup")
+startup = os.path.join(os.getenv("APPDATA"), "Microsoft\\Windows\\Start Menu\\Programs\\Startup") # type: ignore
 shortcut_path = os.path.join(startup, "listener.lnk")
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
@@ -44,10 +44,11 @@ def load_sygnals() -> list:
     if not os.path.exists(SYGNALS):
         return []
     try:
-        with open("sygnals.json", "r", encoding="utf-8") as f:
+        with open(SYGNALS, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception:
         log_error()
+        return []
 def save_sygnals(bind):
     a = load_sygnals()
     a.append(bind)

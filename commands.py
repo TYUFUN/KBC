@@ -80,7 +80,7 @@ Notes:
   - Signal names must be written exactly as shown (all lowercase).
   - Like in "create", keys for the -k flag must be separated by "+" without spaces.
     """)
-def list():
+def ls():
     try:
         with open(CONFIG, "r", encoding="utf-8") as f:
             config = json.load(f)

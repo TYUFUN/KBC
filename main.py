@@ -1,5 +1,5 @@
 import sys
-from commands import autostart, bind, help, list, create, remove, treat
+from commands import autostart, bind, help, ls, create, remove, treat
 from additional import log_error
 print("""Welcome to KBC!\nType 'help' for information.""")
 while True:
@@ -15,7 +15,7 @@ while True:
             case ["help"]:
                 help(page="1")
             case ["ls"]:
-                list()
+                ls()
             case ["exit"]:
                 sys.exit(0)
             case ["create", keys, action]:

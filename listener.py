@@ -137,8 +137,8 @@ def listener():
         except AttributeError:
             name = key.name.replace("_l", "").replace("_r", "")
             pressed.discard(f"<{name}>")
-    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-        listener.join()
+    with keyboard.Listener(on_press=on_press, on_release=on_release) as listen:
+        listen.join()
 t = threading.Thread(target=reload_listener, daemon=True)
 t.start()
 listener()

@@ -11,9 +11,9 @@ while True:
             parts = inputt.split()
         match parts:
             case ["help", page]:
-                help(page=page)
+                help(page)
             case ["help"]:
-                help(page="1")
+                help("1")
             case ["ls"]:
                 ls()
             case ["exit"]:
@@ -30,7 +30,10 @@ while True:
             case ["autostart", do]:
                 autostart(do)
             case ["treat", sygnal, option, action]:
-                treat(sygnal, option, action)
+                if option in ("-k", "-a"):
+                    treat(sygnal, option, action)
+                else:
+                    print("Error argument")
             case _:
                 print("Unknown command. Use help for information.")
     except Exception:

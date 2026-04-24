@@ -1,33 +1,12 @@
 import subprocess
 from pynput import keyboard
-from pynput.keyboard import Key, Controller
 import threading
 import time
 import os
-from additional import log_error, CONFIG, loading, window, load_sygnals
+from additional import log_error, CONFIG, loading, window, load_sygnals, tryfix, controller
 keybind = {}
 sygnals = None
 clear_timer = None
-controller = Controller()
-tryfix = {
-    "<win>": Key.cmd,
-    "<ctrl>": Key.ctrl,
-    "<shift>": Key.shift,
-    "<alt>": Key.alt,
-    "<space>": Key.space,
-    "<f1>": Key.f1,
-    "<f2>": Key.f2,
-    "<f3>": Key.f3,
-    "<f4>": Key.f4,
-    "<f5>": Key.f5,
-    "<f6>": Key.f6,
-    "<f7>": Key.f7,
-    "<f8>": Key.f8,
-    "<f9>": Key.f9,
-    "<f10>": Key.f10,
-    "<f11>": Key.f11,
-    "<f12>": Key.f12,
-}
 def reload_listener():
     while True:
         global sygnals

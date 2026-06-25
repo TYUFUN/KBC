@@ -9,7 +9,7 @@ class Api:
         return "No file selected"
     
 api = Api()
-window = webview.create_window('KBC', 'front/index.html', maximized=True,
+window = webview.create_window('KBC', 'front/index.html', height=400, width=600,
     resizable=False,
     easy_drag=True,
     background_color="#000000", js_api=api) #html= для передачи переменной в вебвью

@@ -5,13 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        
         body{
-            background-color: green;
+            margin: 0;
+            background-color: rgb(188, 35, 199);
+        }
+        button{
+            cursor: pointer;
+        }
+        nav{
+            height: 50px;
+            background-color: purple;
+        }
+        nav button{
+            font-family:'Gill Sans MT';
+            height: 100%;
+            width: auto;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: rgb(0, 0, 0);
+            border: none;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        nav button:hover{
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid white;
+        }
+        #kb{
+            position: relative;
+            border: 1px solid white;
+            border-radius: 30px;
+            position: relative;
+            height: 250px;
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        #kb label{
+            font-size: 20px;
+            position: absolute;
+            left: 15%;
+        }
+        #opt{
+            cursor: pointer;
+            font-size: 17px;
+            margin: 5px;
+            padding: 5px;
+            background-color: rgb(162, 33, 162);
+        }
+        #file{
+            position: absolute;
+            top: 40%;
+            left: 30px;
+            height: 50px;
+            min-width: 150px;
+            width: auto;
+            background-color: rgb(215, 64, 215);
+        }
+        #apply{
+            font-size: 17px;
+            height: 30px;
+            width: 70px;
+            position: absolute;
+            top: 94%;
+            left: 300px;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: rgb(51, 209, 51);
+        }
+        #apply:hover{
+            background-color: rgb(134, 226, 134);
+        }
+        #cancel{
+            font-size: 17px;
+            height: 30px;
+            width: 70px;
+            position: absolute;
+            top: 94%;
+            left: 150px;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: rgb(209, 51, 51);
+        }
+        #cancel:hover{
+            background-color: rgb(224, 100, 100);
         }
     </style>
 </head>
 <body>
-    <button id="file">Select path</button>
+    <nav>
+        <button id="keybinds">Keybinds</button>
+        <button id="additional">Additional</button>
+        <button id="settings">Settings</button>
+    </nav>
+    <div id="kb">
+        <label for="opt">choose target: <select id="opt">
+            <option value="app">Application</option>
+            <option value="link">link</option>
+            <option value="cmd">console command</option>
+            <option value="in">built in options</option>
+        </select>
+        </label>
+        <div id="app">
+            <button id="file">Select path</button>
+        </div>
+        <div id="link">
+
+        </div>
+        <div id="cmd">
+
+        </div>
+        <div id="in">
+
+        </div>
+        <button id="apply">apply</button>
+        <button id="cancel">cancel</button>
+    </div>
 </body>
 <script src="app.js"></script>
 </html>
